@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+// Define a classe principal
 public class AutomacaoPesquisa {
+    // Cria um logger para registro de logs
     private static final Logger logger = Logger.getLogger("AutomacaoPesquisaLog");
+
+    // Define a lista de temas em inglês
     private static final List<String> temasEn = List.of(
         "technology", "health", "education", "sports", "politics", "economy",
         "science", "art", "music", "literature", "history", "geography",
@@ -21,28 +24,38 @@ public class AutomacaoPesquisa {
         "law", "administration", "marketing", "finance", "architecture",
         "design", "fashion", "gastronomy"
     );
+
+    // Define a lista de perguntas em inglês
     private static final List<String> perguntasEn = List.of(
         "What is %s?", "What are the latest news in %s?", "How does %s impact society?",
         "What are the main challenges in %s?", "Who are the leading experts in %s?"
     );
 
+    // Método principal que executa a automação
     public static void main(String[] args) throws Exception {
-        // Configuração de logging
+        // Configura o logger para gravar logs em um arquivo
         FileHandler fileHandler = new FileHandler("automacao_pesquisa.log", true);
         fileHandler.setFormatter(new SimpleFormatter());
         logger.addHandler(fileHandler);
 
         logger.info("O código de automação de pesquisa no Edge vai começar....");
+
+        // Verifica a conectividade com a internet
         if (verificarConectividade()) {
-            for (int i = 0; i < 6; i++) {
+            // Para cada tema, gera e realiza pesquisas
+            for (int i = 0; i < 1; i++) {
                 String tema = temasEn.get(new Random().nextInt(temasEn.size()));
                 List<String> pesquisas = gerarPesquisasSobreTema(tema, 5);
 
+                // Abre o navegador Edge
                 if (abrirEdge()) {
+                    // Realiza pesquisas
                     for (String pesquisa : pesquisas) {
                         realizarPesquisa(pesquisa);
                     }
+                    // Limpa os dados de navegação
                     limparDadosNavegacao();
+                    // Fecha o navegador
                     fecharNavegador();
                 } else {
                     logger.severe("Não foi possível abrir o navegador Edge.");
@@ -54,6 +67,7 @@ public class AutomacaoPesquisa {
         logger.info("O programa está concluído.");
     }
 
+    // Método para gerar uma lista de pesquisas sobre um tema
     private static List<String> gerarPesquisasSobreTema(String tema, int n) {
         List<String> pesquisas = new ArrayList<>();
         for (String p : perguntasEn) {
@@ -62,6 +76,7 @@ public class AutomacaoPesquisa {
         return pesquisas.subList(0, Math.min(n, pesquisas.size()));
     }
 
+    // Método para abrir o navegador Edge
     private static boolean abrirEdge() {
         try {
             Robot robot = new Robot();
@@ -91,6 +106,7 @@ public class AutomacaoPesquisa {
         }
     }
 
+    // Método para realizar uma pesquisa
     private static void realizarPesquisa(String pesquisa) {
         try {
             Robot robot = new Robot();
@@ -121,6 +137,7 @@ public class AutomacaoPesquisa {
         }
     }
 
+    // Método para limpar os dados de navegação
     private static void limparDadosNavegacao() {
         try {
             Robot robot = new Robot();
@@ -140,6 +157,7 @@ public class AutomacaoPesquisa {
         }
     }
 
+    // Método para fechar o navegador
     private static void fecharNavegador() {
         try {
             Robot robot = new Robot();
@@ -153,6 +171,7 @@ public class AutomacaoPesquisa {
         }
     }
 
+    // Método para verificar a conectividade com a internet
     private static boolean verificarConectividade() {
         try {
             URL url = new URL("https://www.google.com");
@@ -174,4 +193,3 @@ public class AutomacaoPesquisa {
         }
     }
 }
-
