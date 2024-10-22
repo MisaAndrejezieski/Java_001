@@ -37,7 +37,6 @@ public class AutomacaoPesquisa {
         FileHandler fileHandler = new FileHandler("automacao_pesquisa.log", true);
         fileHandler.setFormatter(new SimpleFormatter());
         logger.addHandler(fileHandler);
-
         logger.info("O código de automação de pesquisa no Edge vai começar....");
 
         // Verifica a conectividade com a internet
